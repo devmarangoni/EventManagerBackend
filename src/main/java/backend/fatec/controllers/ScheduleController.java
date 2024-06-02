@@ -87,17 +87,19 @@ public class ScheduleController {
         try {
             Schedule schedule = new Schedule();
             schedule.setEventDateTime(scheduleRecordDto.getEventDateTime());
-            
-            for (UUID eventId : scheduleRecordDto.getEvents()) {
+
+            for(UUID eventId : scheduleRecordDto.getEvents()){
                 Optional<Event> optionalEvent = eventRepository.findById(eventId);
-                if (optionalEvent.isPresent()) {
+                if(optionalEvent.isPresent()){
                     Event event = optionalEvent.get();
                     schedule.addEvent(event);
                 }
             }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(scheduleRepository.save(schedule));
+            Schedule savedSchedule = scheduleRepository.save(schedule);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedSchedule);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -139,6 +141,21 @@ public class ScheduleController {
         }
     }
 
+    @DeleteMapping("/schedule/{scheduleId}")
+    public ResponseEntity<Boolean> deleteSchedule(@PathVariable UUID scheduleId){
+        try{    
+            var schedule = scheduleRepository.findById(scheduleId);
+            Schedule scheduleToVerify = new Schedule();
+            if(schedule != null){
+                BeanUtils.copyProperties(schedule, scheduleToVerify);
+                scheduleRepository.deleteById(scheduleId);
+            }
+
+            return ResponseEntity.ok().body(true);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+    }
     /* Criar uma rota (PUT) para adicionar um evento */
 
     /* Criar uma rota (PUT) para remover um evento */

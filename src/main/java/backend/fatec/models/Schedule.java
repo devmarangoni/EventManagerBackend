@@ -1,9 +1,12 @@
 package backend.fatec.models;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "schedule")
@@ -18,10 +21,23 @@ public class Schedule {
     private Date eventDateTime; /* Horário do agendamento */
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Event> events;
+
+    public Schedule(){
+        this.events = new ArrayList<>();
+    }
 
     public static long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    public UUID getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(UUID scheduleId){
+        this.scheduleId = scheduleId;
     }
 
     public Date getEventDateTime() {
@@ -46,6 +62,7 @@ public class Schedule {
     */
     public void addEvent(Event event){
         events.add(event);
+        event.setSchedule(this);
     }
 
     /**
@@ -56,9 +73,10 @@ public class Schedule {
     */
     public void removeEvent(Event event) {
         events.remove(event);
+        event.setSchedule(null);
     }
 
-    /*
+    /**
      * Retorna se o agendamento possui menos de dois eventos.
      * 
      * @param void

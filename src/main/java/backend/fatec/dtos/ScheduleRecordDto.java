@@ -1,5 +1,4 @@
 package backend.fatec.dtos;
-import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -7,7 +6,7 @@ import java.util.UUID;
 import jakarta.validation.constraints.NotNull;
 
 public record ScheduleRecordDto(
-    @NotBlank Date eventDateTime,
+    @NotNull Date eventDateTime,
     @NotNull List<UUID> events
 ){
 
