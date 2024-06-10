@@ -1,0 +1,415 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2024-06-02T16:07:57.719Z",
+    "__export_source": "insomnia.desktop.app:v9.2.0",
+    "resources": [
+        {
+            "_id": "req_02ddcb277a194520869a64c7db9e9941",
+            "parentId": "fld_f5a6e5c124c945688e8ebc24ca65ad26",
+            "modified": 1715561067075,
+            "created": 1715125412060,
+            "url": "http://localhost:8080/event",
+            "name": "CreateEvent",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"length\": \"mini\",\n\t\"address\": \"Avenida Brasil, 23\",\n\t\"customer\": {\n\t\t\"customerId\": \"ca79984b-6553-4434-aeb7-c4b37717c4e1\",\n\t\t\"name\": \"João\",\n\t\t\"phone\": \"3406-2525\",\n\t\t\"mobile\": \"19999552233\"\n\t},\n\t\"theme\": \"barbie\",\n\t\"description\": \"Festa com balões rosas e brancos\",\n\t\"birthdayPerson\": \"Maria (Filha do João)\",\n\t\"value\": 1500,\n\t\"isBudget\": false,\n\t\"finished\": false\n}"
+            },
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125417077,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_f5a6e5c124c945688e8ebc24ca65ad26",
+            "parentId": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "modified": 1715125052721,
+            "created": 1715125052721,
+            "name": "EVENT",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1715125052721,
+            "_type": "request_group"
+        },
+        {
+            "_id": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "parentId": null,
+            "modified": 1715124606797,
+            "created": 1715124606797,
+            "name": "BackendTccFatec",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_878576774bae48c5b0df2b14866d3c4d",
+            "parentId": "fld_f5a6e5c124c945688e8ebc24ca65ad26",
+            "modified": 1715126326629,
+            "created": 1715126255017,
+            "url": "http://localhost:8080/event",
+            "name": "GetAllEvents",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1",
+                    "id": "pair_f5a05246c8e74fb58c14aa1898ca67fc"
+                },
+                {
+                    "id": "pair_c3531a8f4dd94365806cd3a37848c98c",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125236602.5,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_d98a4ecb2b3d4e0194476082451e879c",
+            "parentId": "fld_f5a6e5c124c945688e8ebc24ca65ad26",
+            "modified": 1715560620600,
+            "created": 1715126370864,
+            "url": "http://localhost:8080/events/ca79984b-6553-4434-aeb7-c4b37717c4e1",
+            "name": "GetAllCustomerEvents",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1",
+                    "id": "pair_f5a05246c8e74fb58c14aa1898ca67fc"
+                },
+                {
+                    "id": "pair_c3531a8f4dd94365806cd3a37848c98c",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125146365.25,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_8c408649a2ff4ab3adfde4ee4b5180b8",
+            "parentId": "fld_f5a6e5c124c945688e8ebc24ca65ad26",
+            "modified": 1715561097066,
+            "created": 1715560591426,
+            "url": "http://localhost:8080/event/ca79984b-6553-4434-aeb7-c4b37717c4e1",
+            "name": "GetActiveCustomerEvent",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1",
+                    "id": "pair_f5a05246c8e74fb58c14aa1898ca67fc"
+                },
+                {
+                    "id": "pair_c3531a8f4dd94365806cd3a37848c98c",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125101246.625,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_c6e9f870c83e4281a31c753d290b6ecf",
+            "parentId": "fld_c8125a194b204d28aef5862f7b6a506e",
+            "modified": 1717344046217,
+            "created": 1715125056128,
+            "url": "http://localhost:8080/schedule",
+            "name": "CreateSchedule",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"eventDateTime\": \"2024-06-29T15:35:00\",\n\t\"events\": [\n\t\t\"24a23c6f-2cb3-443e-9d63-45199c505ceb\"\n\t]\n}"
+            },
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125056128,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_c8125a194b204d28aef5862f7b6a506e",
+            "parentId": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "modified": 1715125048633,
+            "created": 1715125048633,
+            "name": "SCHEDULE",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1715125048633,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_f7e85e73a44f4c9692a24237b97b172c",
+            "parentId": "fld_c8125a194b204d28aef5862f7b6a506e",
+            "modified": 1717342573275,
+            "created": 1717341295438,
+            "url": "http://localhost:8080/schedule/2b9e7914-c62a-44a7-8f86-f88a44f9201c/event/1b3b3977-ed1e-4acf-8b4a-d1f5b03df85f",
+            "name": "RemoveEventOrDeleteSchedule",
+            "description": "",
+            "method": "DELETE",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125049105.25,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_752ef8fcd64649f98643242fd7fddc17",
+            "parentId": "fld_c8125a194b204d28aef5862f7b6a506e",
+            "modified": 1717344100425,
+            "created": 1717342586406,
+            "url": "http://localhost:8080/schedule/4d103296-42c7-4c9a-b26d-8612278d9334",
+            "name": "DeleteScheduleAndYourEventsById",
+            "description": "",
+            "method": "DELETE",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125045593.875,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_8211cc1b97204447b86bf7782d828c35",
+            "parentId": "fld_c8125a194b204d28aef5862f7b6a506e",
+            "modified": 1717341244986,
+            "created": 1717341235252,
+            "url": "http://localhost:8080/schedule",
+            "name": "GetSchedules",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125042082.5,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_7d724929d80f4ab080eef3af50dd1d60",
+            "parentId": "fld_7213d8a935fb4fb0b95fffc2c77f883e",
+            "modified": 1715125031941,
+            "created": 1715124936127,
+            "url": "http://localhost:8080/customer",
+            "name": "GetAllCustomers",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "insomnia/9.1.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125028037,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_7213d8a935fb4fb0b95fffc2c77f883e",
+            "parentId": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "modified": 1715125020295,
+            "created": 1715125020295,
+            "name": "CUSTOMER",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1715125020295,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_e341324a837548fa9bcead4f468cbd7f",
+            "parentId": "fld_7213d8a935fb4fb0b95fffc2c77f883e",
+            "modified": 1715125027977,
+            "created": 1715124772531,
+            "url": "http://localhost:8080/customer",
+            "name": "CreateCustomer",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"name\": \"João\",\n\t\"mobile\": \"19999552233\",\n\t\"phone\": \"3406-2525\"\n}"
+            },
+            "preRequestScript": "",
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_5a60ada4826e45208017bac4b49cc6f1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1715125027937,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "env_f3e25c610b4d568dbfcc952e4e1d77c8c60cbd93",
+            "parentId": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "modified": 1715124606801,
+            "created": 1715124606801,
+            "name": "Base Environment",
+            "data": {},
+            "dataPropertyOrder": null,
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1715124606801,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_f3e25c610b4d568dbfcc952e4e1d77c8c60cbd93",
+            "parentId": "wrk_86b60c5a8e0c411b9cea49691b41f0f2",
+            "modified": 1715124606805,
+            "created": 1715124606805,
+            "name": "Default Jar",
+            "cookies": [],
+            "_type": "cookie_jar"
+        }
+    ]
+}
