@@ -35,11 +35,10 @@ O projeto está organizado nas seguintes pastas e arquivos principais:
 - **src/main/resources:** Contém arquivos de configuração e templates.
 - **src/test/java:** Contém os testes unitários e de integração.
 >spring.datasource.url=URL DA DATABASE
+
 >spring.datasource.username=USERNAME DA DATABASE
+
 >spring.datasource.password=SENHA DA DATABASE
->spring.jpa.hibernate.ddl-auto=update
->spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
->spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
 ## Como executar
 Para executar a aplicação localmente, siga os passos abaixo:
