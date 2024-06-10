@@ -1,4 +1,4 @@
-# Backend do TCC (FATEC - Spring MVC c/ JSON)
+Spring MVC c/ JSON
 
 ## Introdução
 Este projeto foi desenvolvido como parte da disciplina de Programação Orientada a Objetos (POO). Este projeto tem como objetivo aplicar os conceitos de uma aplicação Java utilizando o framework Spring MVC e o formato de dados JSON.
