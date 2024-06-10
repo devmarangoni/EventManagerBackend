@@ -27,7 +27,7 @@ A aplicação desenvolvida simula o sistema de gerenciamento de uma empresa de d
 
 ## Estrutura MVC do Projeto
 O projeto está organizado nas seguintes pastas e arquivos principais:
-* **src/main/java:** Contém o código fonte Java.
+- **src/main/java:** Contém o código fonte Java.
 - **controllers:** Controladores responsáveis por lidar com as requisições HTTP.
 - **models:** Classes que representam as entidades do sistema.
 - **repositories:** Interfaces que gerenciam a persistência dos dados.
