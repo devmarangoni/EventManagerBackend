@@ -47,3 +47,6 @@ Para executar a aplicação localmente, siga os passos abaixo:
 - Configure o banco de dados conforme o necessário no arquivo application.properties
 - Execute a classe principal para iniciar a aplicação.
 - **OBS:** Para que o projeto funcione é necessário possuir as seguintes extensões **(Extension Pack for Java, Spring Boot Extension Pack)**
+
+## Contato
+Para mais informações, entre em contato com João Marangoni através do e-mail devmarangoni@gmail.com.
