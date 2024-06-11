@@ -1,4 +1,4 @@
-# Backend do TCC (FATEC - Spring MVC c/ JSON)
+# Spring MVC c/ JSON
 
 ## Introdução
 Este projeto foi desenvolvido como parte da disciplina de Programação Orientada a Objetos (POO). Este projeto tem como objetivo aplicar os conceitos de uma aplicação Java utilizando o framework Spring MVC e o formato de dados JSON.
@@ -11,6 +11,12 @@ Este projeto foi desenvolvido como parte da disciplina de Programação Orientad
 
 ## Descrição do projeto
 A aplicação desenvolvida simula o sistema de gerenciamento de uma empresa de decoração de festas (Maira Gasparini Decoração de Festas). O sistema permite a administração de diversos aspectos do negócio, incluindo o cadastro de clientes, gerenciamento de eventos, agendamento de eventos e seleção de tipo de decorações. Utilizando a arquitetura Spring MVC, o projeto segue os princípios de desenvolvimento de software modular e escalável, facilitando a manutenção e a expansão da aplicação.
+
+## Documentation
+Na pasta **documentation** presente no projeto contém algumas informações úteis. 
+- **InsomniaRoutesExample.json:** Contém um JSON para você importar no **insomnia** ou **postman**.
+- **ClassDiagram**: Contém o esquema de classes para facilitar o entendimento.
+- **JavaDoc**: Contém a documentação das rotas e alguns métodos da aplicação.
 
 ## Funcionalidades
 - **Cadastro de clientes:** Permite o registro de novos clientes, edição e exclusão de informações.
