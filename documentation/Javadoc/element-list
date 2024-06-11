@@ -1,0 +1,6 @@
+backend.fatec
+backend.fatec.controllers
+backend.fatec.dtos
+backend.fatec.models
+backend.fatec.repositories
+BackendTccFatec.demo
