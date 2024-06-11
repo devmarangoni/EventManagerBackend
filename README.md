@@ -16,7 +16,7 @@ A aplicação desenvolvida simula o sistema de gerenciamento de uma empresa de d
 Na pasta **documentation** presente no projeto contém algumas informações úteis. 
 - **InsomniaRoutesExample.json:** Contém um JSON para você importar no **insomnia** ou **postman**.
 - **ClassDiagram**: Contém o esquema de classes para facilitar o entendimento.
-- **JavaDoc**: Contém a documentação das rotas e alguns métodos da aplicação.
+- **JavaDoc**: Contém a documentação das rotas e alguns métodos da aplicação, para acessar a página basta abrir o arquivo **index.html** que está dentro da pasta **Javadoc**.
 
 ## Funcionalidades
 - **Cadastro de clientes:** Permite o registro de novos clientes, edição e exclusão de informações.
