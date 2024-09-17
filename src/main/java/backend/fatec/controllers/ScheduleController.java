@@ -42,7 +42,7 @@ public class ScheduleController {
      * @return List<Schedule> ; Lista de todos agendamentos criados no banco.
      * 
     */
-    @GetMapping("/schedule")
+    @GetMapping("/admin/schedule")
     public ResponseEntity<?> getAllSchedule() {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(scheduleRepository.findAll());
@@ -80,7 +80,7 @@ public class ScheduleController {
      *  Busca um agendamento que esteja ligado ao Id do cliente enviado como parâmetro.
      * 
      * @param UUID ; Id do cliente.
-     * @return Schedule ; Agendamento econtrado ou mensagem de não encontrado.
+     * @return Schedule ; Agendamento encontrado ou mensagem de não encontrado.
      * 
     */
     @GetMapping("/schedule/customer/{customerId}")
@@ -143,7 +143,7 @@ public class ScheduleController {
      * @return Boolean ; TRUE (Caso tudo ocorra sem erros), FALSE (Caso ocorra algum ERRO Exception)
      * 
     */
-    @DeleteMapping("/schedule/{scheduleId}/event/{eventId}")
+    @DeleteMapping("/admin/schedule/{scheduleId}/event/{eventId}")
     public ResponseEntity<?> deleteSchedule(@PathVariable UUID scheduleId, @PathVariable UUID eventId){
         try{
             Boolean canDeleteSchedule = false;
@@ -174,7 +174,7 @@ public class ScheduleController {
         }
     }
 
-    @DeleteMapping("/schedule/{scheduleId}")
+    @DeleteMapping("/admin/schedule/{scheduleId}")
     public ResponseEntity<?> deleteSchedule(@PathVariable UUID scheduleId){
         try{    
             var schedule = scheduleRepository.findById(scheduleId);

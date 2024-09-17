@@ -14,7 +14,9 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private Boolean admin;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean admin = false;
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -56,6 +58,6 @@ public class User {
     }
 
     public void setAdmin(Boolean isAdmin){
-        this.admin = isAdmin == null ? false : isAdmin;
+        this.admin = isAdmin;
     }
 }

@@ -34,7 +34,7 @@ public class CustomerController {
      * @return List<Customer>; Lista de todos clientes salvos no banco em formato JSON.
      * 
     */
-    @GetMapping("/customer")
+    @GetMapping("/admin/customer")
     public ResponseEntity<?> getAllCustomers() {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(customerRepository.findAll());

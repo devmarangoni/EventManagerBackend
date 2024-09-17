@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 
 import backend.fatec.helpers.JwtHelper;
+import backend.fatec.controllers.UserController;
 import io.jsonwebtoken.security.Keys;
 
 import java.nio.charset.StandardCharsets;
@@ -30,19 +31,29 @@ public class SecurityConfig {
     private String secret;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public JwtHelper jwtHelper() {
+    public JwtHelper jwtHelper(){
         Key secretKey = getSigningKey();
         return new JwtHelper(secretKey);
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    public UserController userController(){
+        return new UserController();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
         return new JwtAuthenticationFilter(jwtHelper());
+    }
+
+    @Bean
+    public AdminAuthorizationFilter adminAuthorizationFilter(){
+        return new AdminAuthorizationFilter(jwtHelper(), userController());
     }
 
     @Bean
@@ -51,16 +62,23 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/register", "/login", "/validate_token", "/customer", "/customer/user/**").permitAll()
+                .requestMatchers(
+                    "/register", 
+                    "/login", 
+                    "/validate_token", 
+                    "/customer", 
+                    "/customer/user/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Usa o filtro bean
+            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(adminAuthorizationFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
@@ -73,8 +91,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer(){
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
@@ -85,7 +103,7 @@ public class SecurityConfig {
         };
     }
 
-    private Key getSigningKey() {
+    private Key getSigningKey(){
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }

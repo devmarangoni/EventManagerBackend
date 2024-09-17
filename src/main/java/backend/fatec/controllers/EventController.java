@@ -37,7 +37,7 @@ public class EventController {
      * @return List<Event>; Lista de todos eventos salvos no banco em formato JSON.
      * 
     */
-    @GetMapping("/event")
+    @GetMapping("/admin/event")
     public ResponseEntity<?> getAllEvents(){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(eventRepository.findAll());

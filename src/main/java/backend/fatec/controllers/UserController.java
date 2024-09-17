@@ -37,7 +37,7 @@ public class UserController {
     @Autowired
     JwtHelper jwtHelper;
     
-    @GetMapping("/user")
+    @GetMapping("/admin/user")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userRepository.findAll());
@@ -54,9 +54,9 @@ public class UserController {
             var user = new User();
             BeanUtils.copyProperties(userRecordDto, user);
 
-            List<Optional<User>> existingUser = userRepository.checkIfUserExists(user.getUsername(), user.getEmail());
+            List<Optional<User>> existingUser = userRepository.checkIfEmailIsUsed(user.getEmail());
             if(existingUser.size() > 0  && existingUser.get(0).isPresent()){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Email ou nome de usuário cadastrado"));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Email cadastrado"));
             }
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -107,6 +107,22 @@ public class UserController {
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao validar o token"));
+        }
+    }
+
+    public Boolean checkIfUserIsAdmin(String email) {
+        System.out.println(email);
+        try{
+            Optional<User> user = userRepository.findByEmail(email);
+            if(user.isPresent()){
+                return user.get().getAdmin();
+            }
+
+            return false;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return false;
         }
     }
 }
