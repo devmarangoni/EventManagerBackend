@@ -1,5 +1,6 @@
 package backend.fatec.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, UUID>{
     */
     @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.eventId = :EVENT_ID AND e.finished = FALSE")
     Schedule getActiveEventSchedule(@Param("EVENT_ID") UUID eventId);
+
+    /**
+     *  Realiza uma consulta no banco de dados, buscando um Agendamento(Schedule) pelo id do cliente.
+     * 
+     * @param UUID ; Id do evento.
+     * @return Schedule ; Agendamento encontrado ou NULL.
+     * 
+    */
+    @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.customer.customerId = :CUSTOMER_ID AND e.finished = FALSE")
+    Optional<Schedule> getActiveEventScheduleByCustomer(@Param("CUSTOMER_ID") UUID customerId);
 }

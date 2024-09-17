@@ -4,7 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.fatec.dtos.ErrorResponseRecordDto;
 import backend.fatec.dtos.ScheduleRecordDto;
+import backend.fatec.dtos.SuccessResponseRecordDto;
 import backend.fatec.models.Event;
 import backend.fatec.models.Schedule;
 import backend.fatec.repositories.EventRepository;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,11 +43,13 @@ public class ScheduleController {
      * 
     */
     @GetMapping("/schedule")
-    public ResponseEntity<List<Schedule>> getAllSchedule() {
+    public ResponseEntity<?> getAllSchedule() {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(scheduleRepository.findAll());
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter todos os agendamentos"));
         }
     }
 
@@ -57,17 +60,42 @@ public class ScheduleController {
      * @return Schedule ; Agendamento econtrado ou mensagem de não encontrado.
      * 
     */
-    @GetMapping("/schedule/{event}")
-    public ResponseEntity<Schedule> getScheduleByActiveEvent(@PathVariable UUID event) {
+    @GetMapping("/schedule/event/{event}")
+    public ResponseEntity<?> getScheduleByActiveEvent(@PathVariable UUID event) {
         try{
             Schedule schedule = scheduleRepository.getActiveEventSchedule(event);
             if(schedule != null){
                 return ResponseEntity.ok(schedule);
             }
             
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Agendamento não encontrado"));
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter o agendamento do evento ativo"));
+        }
+    }
+
+    /**
+     *  Busca um agendamento que esteja ligado ao Id do cliente enviado como parâmetro.
+     * 
+     * @param UUID ; Id do cliente.
+     * @return Schedule ; Agendamento econtrado ou mensagem de não encontrado.
+     * 
+    */
+    @GetMapping("/schedule/customer/{customerId}")
+    public ResponseEntity<?> getActiveEventScheduleByCustomer(@PathVariable UUID customerId) {
+        try{
+            Optional<Schedule> schedule = scheduleRepository.getActiveEventScheduleByCustomer(customerId);
+            if(schedule.isPresent()){
+                return ResponseEntity.ok(schedule.get());
+            }
+            
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Agendamento não encontrado"));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter o agendamento do evento ativo"));
         }
     }
     
@@ -83,7 +111,9 @@ public class ScheduleController {
      * 
     */
     @PostMapping("/schedule")
-    public ResponseEntity<Schedule> setSchedule(@RequestBody @Valid ScheduleRecordDto scheduleRecordDto) {
+    public ResponseEntity<?> setSchedule(@RequestBody @Valid ScheduleRecordDto scheduleRecordDto) {
+        System.out.println("entrei em schedule");
+        System.out.println(scheduleRecordDto);
         try {
             Schedule schedule = new Schedule();
             schedule.setEventDateTime(scheduleRecordDto.getEventDateTime());
@@ -100,7 +130,8 @@ public class ScheduleController {
             return ResponseEntity.status(HttpStatus.CREATED).body(savedSchedule);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao criar o agendamento"));
         }
     }
 
@@ -113,7 +144,7 @@ public class ScheduleController {
      * 
     */
     @DeleteMapping("/schedule/{scheduleId}/event/{eventId}")
-    public ResponseEntity<Boolean> deleteSchedule(@PathVariable UUID scheduleId, @PathVariable UUID eventId){
+    public ResponseEntity<?> deleteSchedule(@PathVariable UUID scheduleId, @PathVariable UUID eventId){
         try{
             Boolean canDeleteSchedule = false;
             
@@ -135,14 +166,16 @@ public class ScheduleController {
                 scheduleToVerify.removeEvent(eventToRemove);  
             }
 
-            return ResponseEntity.ok().body(true);
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseRecordDto("Agendamento deletado do evento"));
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao deletar o agendamento"));
         }
     }
 
     @DeleteMapping("/schedule/{scheduleId}")
-    public ResponseEntity<Boolean> deleteSchedule(@PathVariable UUID scheduleId){
+    public ResponseEntity<?> deleteSchedule(@PathVariable UUID scheduleId){
         try{    
             var schedule = scheduleRepository.findById(scheduleId);
             Schedule scheduleToVerify = new Schedule();
@@ -151,9 +184,11 @@ public class ScheduleController {
                 scheduleRepository.deleteById(scheduleId);
             }
 
-            return ResponseEntity.ok().body(true);
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseRecordDto("Agendamento deletado"));
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao deletar o agendamento"));
         }
     }
     /* Criar uma rota (PUT) para adicionar um evento */

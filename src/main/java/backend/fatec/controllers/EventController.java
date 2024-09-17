@@ -4,9 +4,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.fatec.dtos.ErrorResponseRecordDto;
 import backend.fatec.dtos.EventRecordDto;
+import backend.fatec.dtos.SuccessResponseRecordDto;
 import backend.fatec.models.Event;
-import backend.fatec.models.Schedule;
 import backend.fatec.repositories.EventRepository;
 import jakarta.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +38,13 @@ public class EventController {
      * 
     */
     @GetMapping("/event")
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<?> getAllEvents(){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(eventRepository.findAll());
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter todos eventos"));
         }
     }
 
@@ -52,19 +56,19 @@ public class EventController {
      * 
     */
     @GetMapping("/event/{customer}")
-    public ResponseEntity<Event> getActiveEventByCustomer(@PathVariable UUID customer) {
+    public ResponseEntity<?> getActiveEventByCustomer(@PathVariable UUID customer) {
         try{
-            var event = eventRepository.getCustomerActiveEvent(customer);
-            System.out.println("Evento obtido");
-            System.out.println(event);
-            if(event != null){
+            Optional<Event> event = eventRepository.getCustomerActiveEvent(customer);
+            if(event.isPresent()){
                 System.out.println("evento diferente de nulo");
                 return ResponseEntity.ok(event);
             }
             
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseRecordDto("Erro ao obter o evento ativo do cliente"));
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter o evento ativo do cliente"));
         }
     }
 
@@ -76,16 +80,18 @@ public class EventController {
      * 
     */
     @GetMapping("/events/{customer}")
-    public ResponseEntity<List<Event>> getAllCustomerEvents(@PathVariable UUID customer) {
+    public ResponseEntity<?> getAllCustomerEvents(@PathVariable UUID customer) {
         try{
             List<Event> customerEvents = eventRepository.getAllCustomerEvents(customer);
             if(customerEvents.isEmpty()){
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Cliente não possui nenhum evento"));
             }
             
             return ResponseEntity.ok(customerEvents);
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter todos eventos do cliente"));
         }
     }
     
@@ -101,7 +107,7 @@ public class EventController {
      * String theme,
      * String description,
      * String birthdayPerson,
-     * @NotN ull float value,
+     * @NotNull float value,
      * @NotNull Boolean isBudget,
      * Boolean finished
      * 
@@ -109,13 +115,21 @@ public class EventController {
      * 
     */
     @PostMapping("/event")
-    public ResponseEntity<Event> setParty(@RequestBody @Valid EventRecordDto eventRecordDto) {
+    public ResponseEntity<?> setParty(@RequestBody @Valid EventRecordDto eventRecordDto) {
         try{
             var event = new Event();
             BeanUtils.copyProperties(eventRecordDto, event);
+
+            Optional<Event> activeEvent = eventRepository.getCustomerActiveEvent((event.getCustomer().getCustomerId()));
+            if(activeEvent.isPresent()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Existe um evento ativo pendente para esse cliente"));
+            }
+
             return ResponseEntity.status(HttpStatus.CREATED).body(eventRepository.save(event));  
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao criar o evento"));
         }
     }
 }

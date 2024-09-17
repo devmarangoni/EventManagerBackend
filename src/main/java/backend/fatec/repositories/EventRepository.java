@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import backend.fatec.models.Event;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, UUID>{
@@ -19,8 +20,8 @@ public interface EventRepository extends JpaRepository<Event, UUID>{
      * @return Event ; Evento encontrado ou NULL.
      * 
     */
-    @Query("SELECT e FROM Event e WHERE e.customer.customerId = :CUSTOMER_ID AND e.finished = FALSE AND e.isBudget = FALSE")
-    Event getCustomerActiveEvent(@Param("CUSTOMER_ID") UUID customerId);
+    @Query("SELECT e FROM Event e WHERE e.customer.customerId = :CUSTOMER_ID AND e.finished = FALSE")
+    Optional<Event> getCustomerActiveEvent(@Param("CUSTOMER_ID") UUID customerId);
 
     /**
      *  Realiza uma consulta no banco de dados, buscando TODOS eventos do cliente enviado no parâmetro.
