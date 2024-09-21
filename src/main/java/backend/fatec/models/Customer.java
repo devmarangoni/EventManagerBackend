@@ -14,7 +14,7 @@ public class Customer {
     private String name; /* Nome do cliente REQUIRED */
     private String phone; /* Telefone do cliente */
     private String mobile; /* Celular do cliente REQUIRED */
-
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_user_id")
     private User user;

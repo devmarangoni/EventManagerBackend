@@ -14,6 +14,9 @@ public class User {
     private String username;
     private String password;
     private String email;
+    
+    @Column(length = 130000)
+    private String photo;
 
     @Column(columnDefinition = "boolean default false")
     private Boolean admin = false;
@@ -59,5 +62,13 @@ public class User {
 
     public void setAdmin(Boolean isAdmin){
         this.admin = isAdmin;
+    }
+
+    public String getPhoto(){
+        return photo;
+    }
+
+    public void setPhoto(String photo){
+        this.photo = photo;
     }
 }
