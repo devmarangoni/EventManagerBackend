@@ -1,5 +1,6 @@
 package backend.fatec.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, UUID>{
     */
     @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.customer.customerId = :CUSTOMER_ID AND e.finished = FALSE")
     Optional<Schedule> getActiveEventScheduleByCustomer(@Param("CUSTOMER_ID") UUID customerId);
+
+    /**
+     *  Realiza uma consulta no banco de dados, buscando todos agendamentos do mês da requisição para frente, que não são orçamentos, ou seja, reais. 
+     * Que ainda não foram finalizados.
+     * 
+     * @return List<Schedule> ; Agendamentos encontrados ou array vazio.
+     * 
+    */
+    @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.isBudget = FALSE AND e.finished = FALSE")
+    List<Schedule> getNextEventsScheduled();
 }

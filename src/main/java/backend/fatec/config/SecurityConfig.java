@@ -67,7 +67,8 @@ public class SecurityConfig {
                     "/login", 
                     "/validate_token", 
                     "/customer", 
-                    "/customer/user/**"
+                    "/customer/user/**",
+                    "/schedule/events/next"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

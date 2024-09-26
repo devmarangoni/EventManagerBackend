@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +46,7 @@ public class ScheduleController {
      * 
     */
     @GetMapping("/admin/schedule")
-    public ResponseEntity<?> getAllSchedule() {
+    public ResponseEntity<?> getAllSchedule(){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(scheduleRepository.findAll());
         }catch(Exception e){
@@ -61,7 +64,7 @@ public class ScheduleController {
      * 
     */
     @GetMapping("/schedule/event/{event}")
-    public ResponseEntity<?> getScheduleByActiveEvent(@PathVariable UUID event) {
+    public ResponseEntity<?> getScheduleByActiveEvent(@PathVariable UUID event){
         try{
             Schedule schedule = scheduleRepository.getActiveEventSchedule(event);
             if(schedule != null){
@@ -84,7 +87,7 @@ public class ScheduleController {
      * 
     */
     @GetMapping("/schedule/customer/{customerId}")
-    public ResponseEntity<?> getActiveEventScheduleByCustomer(@PathVariable UUID customerId) {
+    public ResponseEntity<?> getActiveEventScheduleByCustomer(@PathVariable UUID customerId){
         try{
             Optional<Schedule> schedule = scheduleRepository.getActiveEventScheduleByCustomer(customerId);
             if(schedule.isPresent()){
@@ -111,7 +114,7 @@ public class ScheduleController {
      * 
     */
     @PostMapping("/schedule")
-    public ResponseEntity<?> setSchedule(@RequestBody @Valid ScheduleRecordDto scheduleRecordDto) {
+    public ResponseEntity<?> setSchedule(@RequestBody @Valid ScheduleRecordDto scheduleRecordDto){
         System.out.println("entrei em schedule");
         System.out.println(scheduleRecordDto);
         try {
@@ -194,4 +197,28 @@ public class ScheduleController {
     /* Criar uma rota (PUT) para adicionar um evento */
 
     /* Criar uma rota (PUT) para remover um evento */
+
+    /**
+     *  Busca todos os agendamentos REAIS ATIVOS que ainda serão realizados e retorna os dias que esses eventos acontecerão.
+     * 
+     * @return List<Date> ; Agendamento econtrado ou mensagem de não encontrado.
+     * 
+    */
+    @GetMapping("/schedule/events/next")
+    public ResponseEntity<?> getNextEventsScheduled(){
+        try{
+            List<Date> scheduledDates = new ArrayList<Date>();
+
+            List<Schedule> nextEventsScheduled = scheduleRepository.getNextEventsScheduled();
+            for(Schedule eventScheduled : nextEventsScheduled){
+                scheduledDates.add(eventScheduled.getEventDateTime());
+            }
+            
+            return ResponseEntity.status(HttpStatus.OK).body(scheduledDates);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter o agendamento do evento ativo"));
+        }
+    }
 } 
