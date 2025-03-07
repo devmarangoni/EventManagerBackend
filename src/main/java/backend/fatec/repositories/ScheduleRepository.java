@@ -39,6 +39,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, UUID>{
      * @return List<Schedule> ; Agendamentos encontrados ou array vazio.
      * 
     */
-    @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.isBudget = FALSE AND e.finished = FALSE")
-    List<Schedule> getNextEventsScheduled();
+    @Query("SELECT s FROM Schedule s JOIN s.events e WHERE e.isBudget = TRUE AND e.finished = FALSE AND e.customer.customerId != :CUSTOMER_ID")
+    List<Schedule> getNextEventsScheduled(@Param("CUSTOMER_ID") UUID customerId);
 }

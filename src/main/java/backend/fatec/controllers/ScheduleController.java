@@ -2,6 +2,7 @@ package backend.fatec.controllers;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.fatec.dtos.ErrorResponseRecordDto;
@@ -28,6 +29,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping
@@ -205,15 +207,19 @@ public class ScheduleController {
      * 
     */
     @GetMapping("/schedule/events/next")
-    public ResponseEntity<?> getNextEventsScheduled(){
+    public ResponseEntity<?> getNextEventsScheduled(@RequestParam(name = "customer", required = true) UUID customerId){
+        System.out.println("Entrei na rota");
         try{
             List<Date> scheduledDates = new ArrayList<Date>();
 
-            List<Schedule> nextEventsScheduled = scheduleRepository.getNextEventsScheduled();
+            List<Schedule> nextEventsScheduled = scheduleRepository.getNextEventsScheduled(customerId);
+            System.out.println(nextEventsScheduled);
             for(Schedule eventScheduled : nextEventsScheduled){
+                System.out.println(eventScheduled);
                 scheduledDates.add(eventScheduled.getEventDateTime());
             }
             
+            System.out.println(scheduledDates);
             return ResponseEntity.status(HttpStatus.OK).body(scheduledDates);
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -221,4 +227,4 @@ public class ScheduleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter o agendamento do evento ativo"));
         }
     }
-} 
+}

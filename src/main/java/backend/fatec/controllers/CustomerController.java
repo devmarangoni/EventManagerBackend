@@ -44,31 +44,6 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter todos clientes"));
         }
     }
-
-    /**
-     * Busca os dados do cliente pelo Id de usuário
-     * 
-     * @param Void não possui parâmetros
-     * @return Customer; Cliente salvo no banco em formato JSON.
-     * 
-    */
-    @GetMapping("/customer/user/{userId}")
-    public ResponseEntity<?> getCustomerByUserId(@PathVariable UUID userId){
-        System.out.println(userId);
-        try{
-            Optional<Customer> findedCustomer = customerRepository.getCustomerByUserId(userId);
-            System.out.println(findedCustomer);
-            if(findedCustomer.isPresent()){
-                return ResponseEntity.status(HttpStatus.OK).body(findedCustomer.get());
-            }
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("Usuário não é um cliente"));
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao obter cliente"));
-        }
-    }
     
     /**
      *  Cria um cliente novo no banco de dados e retorna os dados do cliente.

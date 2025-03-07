@@ -14,10 +14,7 @@ public class Customer {
     private String name; /* Nome do cliente REQUIRED */
     private String phone; /* Telefone do cliente */
     private String mobile; /* Celular do cliente REQUIRED */
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_user_id")
-    private User user;
+    private String email; /* Email do cliente REQUIRED */
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -51,10 +48,10 @@ public class Customer {
         this.mobile = mobile;
     }
 
-    public User getUser(){
-        return user;
+    public String getEmail(){
+        return email;
     }
-    public void setUser(User user){
-        this.user = user;
+    public void setEmail(String email){
+        this.email = email;
     }
 }
