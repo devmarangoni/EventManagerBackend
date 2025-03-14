@@ -65,9 +65,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/register", 
                     "/login", 
-                    "/validate_token", 
-                    "/customer", 
-                    "/customer/user/**",
+                    "/validate_token",
                     "/schedule/events/next"
                 ).permitAll()
                 .anyRequest().authenticated()

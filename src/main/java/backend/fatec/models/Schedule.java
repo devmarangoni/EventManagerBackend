@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @Table(name = "schedule")
 public class Schedule {
@@ -21,7 +19,6 @@ public class Schedule {
     private Date eventDateTime; /* Horário do agendamento */
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<Event> events;
 
     public Schedule(){

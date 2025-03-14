@@ -1,9 +1,11 @@
 package backend.fatec.dtos;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record CustomerRecordDto(
+    UUID customerId,
     @NotBlank String name,
     @NotBlank String mobile,
     String phone,

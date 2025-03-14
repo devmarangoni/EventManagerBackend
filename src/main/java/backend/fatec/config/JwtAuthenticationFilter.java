@@ -35,8 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             request.getRequestURI().equals("/register") || 
             request.getRequestURI().equals("/login") || 
             request.getRequestURI().equals("/validate_token") ||
-            (request.getRequestURI().equals("/customer") && request.getMethod().equals("POST")) ||
-            request.getRequestURI().startsWith("/customer/user/") ||
             request.getRequestURI().equals("/schedule/events/next")
         ){
             filterChain.doFilter(request, response);

@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.RestController;
 import backend.fatec.dtos.ErrorResponseRecordDto;
 import backend.fatec.dtos.EventRecordDto;
 import backend.fatec.dtos.SuccessResponseRecordDto;
+import backend.fatec.models.Customer;
 import backend.fatec.models.Event;
 import backend.fatec.repositories.EventRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -64,7 +67,7 @@ public class EventController {
                 return ResponseEntity.ok(event);
             }
             
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseRecordDto("Erro ao obter o evento ativo do cliente"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseRecordDto("Erro ao obter o evento ativo do cliente"));
         }catch(Exception e){
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
@@ -130,6 +133,36 @@ public class EventController {
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao criar o evento"));
+        }
+    }
+
+    /**
+     *  Atualiza um evento
+     * 
+     * @param EventRecordDto ; 
+     * @return EventRecordDto updated
+     * 
+    */
+    @PutMapping("/event")
+    public ResponseEntity<?> updateParty(@RequestBody @Valid EventRecordDto eventRecordDto){
+        try{
+            if(eventRecordDto.eventId() == null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseRecordDto("O ID do evento é obrigatório"));
+            }
+
+            Optional<Event> existingEvent = eventRepository.findById(eventRecordDto.eventId());
+            if(existingEvent.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseRecordDto("Evento não encontrado"));
+            }
+
+            Event event = existingEvent.get();
+            BeanUtils.copyProperties(eventRecordDto, event, "eventId");
+            
+            return ResponseEntity.ok(eventRepository.save(event));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao atualizar o evento"));
         }
     }
 }

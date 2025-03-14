@@ -3,7 +3,7 @@ package backend.fatec.models;
 import jakarta.persistence.*;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "event")
@@ -30,7 +30,7 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "schedule_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("events")
     private Schedule schedule;
 
     public static long getSerialversionuid() {

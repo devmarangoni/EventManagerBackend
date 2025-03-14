@@ -30,6 +30,6 @@ public interface EventRepository extends JpaRepository<Event, UUID>{
      * @return List<Event> ; Lista com todos os eventos do cliente OU NULL.
      * 
     */
-    @Query("SELECT e FROM Event e WHERE e.customer.customerId = :CUSTOMER_ID")
+    @Query("SELECT e FROM Event e LEFT JOIN FETCH e.schedule WHERE e.customer.customerId = :CUSTOMER_ID")
     List<Event> getAllCustomerEvents(@Param("CUSTOMER_ID") UUID customerId);
 }

@@ -196,9 +196,6 @@ public class ScheduleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao deletar o agendamento"));
         }
     }
-    /* Criar uma rota (PUT) para adicionar um evento */
-
-    /* Criar uma rota (PUT) para remover um evento */
 
     /**
      *  Busca todos os agendamentos REAIS ATIVOS que ainda serão realizados e retorna os dias que esses eventos acontecerão.
