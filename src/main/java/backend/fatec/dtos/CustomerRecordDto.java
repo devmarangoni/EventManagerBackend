@@ -9,5 +9,6 @@ public record CustomerRecordDto(
     @NotBlank String name,
     @NotBlank String mobile,
     String phone,
-    @NotBlank String email
+    @NotBlank String email,
+    String description
 ) {}

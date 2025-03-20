@@ -10,17 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.fatec.dtos.ErrorResponseRecordDto;
+import backend.fatec.dtos.EventRecordDto;
 import backend.fatec.dtos.LoginRequestRecordDto;
 import backend.fatec.dtos.LoginResponseRecordDto;
 import backend.fatec.dtos.SuccessResponseRecordDto;
 import backend.fatec.dtos.UserRecordDto;
 import backend.fatec.dtos.ValidateTokenRecordDto;
 import backend.fatec.helpers.JwtHelper;
+import backend.fatec.models.Event;
 import backend.fatec.models.User;
 import backend.fatec.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -65,6 +68,46 @@ public class UserController {
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseRecordDto("Erro ao realizar cadastro"));
+        }
+    }
+
+    /**
+     *  Atualiza um usuário
+     * 
+     * @param UserRecordDto ; 
+     * @return UserRecordDto updated
+     * 
+    */
+    @PutMapping("/user")
+    public ResponseEntity<?> updateParty(@RequestBody @Valid UserRecordDto userRecordDto){
+        try{
+            if(userRecordDto.userId() == null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponseRecordDto("O ID do usuário é obrigatório"));
+            }
+    
+            Optional<User> existingUser = userRepository.findById(userRecordDto.userId());
+            if(existingUser.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponseRecordDto("Usuário não encontrado"));
+            }
+    
+            User user = existingUser.get();
+    
+            String[] ignoreProperties = new String[]{"userId", "password"};
+    
+            if(!user.getPassword().equals(userRecordDto.password())){
+                user.setPassword(passwordEncoder.encode(userRecordDto.password()));
+            }
+    
+            BeanUtils.copyProperties(userRecordDto, user, ignoreProperties);
+            
+            return ResponseEntity.ok(userRepository.save(user));
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponseRecordDto("Erro ao atualizar o usuário"));
         }
     }
 

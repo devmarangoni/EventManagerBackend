@@ -32,10 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String email;
 
         if(
-            request.getRequestURI().equals("/register") || 
             request.getRequestURI().equals("/login") || 
-            request.getRequestURI().equals("/validate_token") ||
-            request.getRequestURI().equals("/schedule/events/next")
+            request.getRequestURI().equals("/validate_token")
         ){
             filterChain.doFilter(request, response);
             return;

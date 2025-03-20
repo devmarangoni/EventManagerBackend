@@ -63,10 +63,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers(
-                    "/register", 
                     "/login", 
-                    "/validate_token",
-                    "/schedule/events/next"
+                    "/validate_token"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

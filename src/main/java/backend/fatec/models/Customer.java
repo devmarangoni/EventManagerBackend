@@ -15,6 +15,7 @@ public class Customer {
     private String phone; /* Telefone do cliente */
     private String mobile; /* Celular do cliente REQUIRED */
     private String email; /* Email do cliente REQUIRED */
+    private String description; /* Descrição ou feedback */
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -53,5 +54,12 @@ public class Customer {
     }
     public void setEmail(String email){
         this.email = email;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description = description;
     }
 }
